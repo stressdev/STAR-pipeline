@@ -3,14 +3,14 @@
 #SBATCH --output=slurm_%j.out
 #SBATCH --error=slurm_%j.err
 #SBATCH --time=00-64:30:30
-#SBATCH --ntasks=2
-#SBATCH --cpus-per-task=8
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=4
 #SBATCH --mem-per-cpu=8G
 #SBATCH --partition=ncf
 
 
 SUBJECT=$1
-VERSION=20.0.7
+VERSION=20.1.1
 
 cd /mnt/stressdevlab/STAR
 
