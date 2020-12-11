@@ -30,7 +30,7 @@ set fmri(featwatcher_yn) 0
 set fmri(sscleanup_yn) 0
 
 # Output directory
-set fmri(outputdir) "/mnt/stressdevlab/STAR/derivatives/fmriprep-20.0.7/feat_analyses/sub-SUBJECT/guessing/Guessing_Run_2.feat"
+set fmri(outputdir) "/mnt/stressdevlab/STAR/derivatives/fmriprep-20.1.1/feat_analyses/sub-SUBJECT/guessing/Guessing_Run_2.feat"
 
 # TR(s)
 set fmri(tr) 0.800000 
@@ -267,13 +267,13 @@ set fmri(totalVoxels) 205586650
 set fmri(ncopeinputs) 0
 
 # 4D AVW data or FEAT directory (1)
-set feat_files(1) "/mnt/stressdevlab/STAR/derivatives/fmriprep-20.0.7/fmriprep/sub-SUBJECT/func/sub-SUBJECT_task-guessing_dir-ap_run-1_space-MNI152NLin6Asym_res-2_desc-preproc_bold"
+set feat_files(1) "/mnt/stressdevlab/STAR/derivatives/fmriprep-20.1.1/fmriprep/sub-SUBJECT/func/sub-SUBJECT_task-guessing_dir-ap_run-1_space-MNI152NLin6Asym_res-2_desc-preproc_bold"
 
 # Add confound EVs text file
 set fmri(confoundevs) 1
 
 # Confound EVs text file for analysis 1
-set confoundev_files(1) "/net/holynfs01/srv/export/mclaughlin/share_root/stressdevlab/STAR/derivatives/fmriprep-20.0.7/fmriprep/sub-SUBJECT/func/sub-SUBJECT_task-guessing_dir-ap_run-1_desc-confounds_regressors-9p.txt"
+set confoundev_files(1) "/net/holynfs01/srv/export/mclaughlin/share_root/stressdevlab/STAR/derivatives/fmriprep-20.1.1/fmriprep/sub-SUBJECT/func/sub-SUBJECT_task-guessing_dir-ap_run-1_desc-confounds_regressors-9p.txt"
 
 # EV 1 title
 set fmri(evtitle1) "GUESS"
