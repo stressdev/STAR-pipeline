@@ -4,7 +4,43 @@ import yaxil
 import subprocess
 import glob as glob
 
-#auth = yaxil.XnatAuth(url='http://cbscentral.rc.fas.harvard.edu', username='ksambr', password='xnatpwd')
+def download_beh_file(sess,
+                      uri,
+                      out_dir='.',
+                      overwrite=False,
+                      **kwargs):
+    rename_dict = {
+        'CARIT_RUN1' : 'CARIT_Run_1',
+        'CARIT_RUN2' : 'CARIT_Run_2',
+        'EMOTION' : 'EMOTION_Run_1',
+        'GUESSING_RUN1' : 'GUESSING_Run_1',
+        'GUESSING_RUN2' : 'GUESSING_Run_2',
+        'WORKING_MEMORY' : 'WM_Run_1'}
+    basename = uri.split('files/')[-1]
+    new_basename = rename_dict[basename.upper()]
+    fname = os.path.join(out_dir, new_basename)
+    dirname = os.path.dirname(fname)
+
+    if not os.path.exists(dirname):
+        os.makedirs(dirname)
+
+    try:
+        _, result = yaxil._get(
+            sess._auth,
+            uri,
+            yaxil.Format.JSON,  # Format is ignored for _file_ downloads
+            autobox=False)
+    except RestApiError as err:
+        # Empty responses are acceptable for some scripts and onset files
+        if 'response is empty' in str(err):
+            result = bytes('', 'utf8')
+        else:
+            raise
+
+    with open(fname, 'wb') as f:
+        print("Writing to " + fname)
+        f.write(result)
+
 auth = yaxil.auth(alias='cbscentral', cfg='~/.cbsauth')
 
 ## VARS
@@ -43,6 +79,19 @@ df = pd.concat(all_scan_data, axis = 1).T
 df['scan_num'] = pd.to_numeric(df['id'])
 df.sort_values('scan_num')
 df.to_csv(outdf, header = True, index = False, sep = ',')
+
+## GET BEHAVIORAL DATA
+with yaxil.session(auth) as sess:
+  # get all subjects for given project
+  for subject in sess.subjects(project='STAR_Study'):
+        if subject[1] == 'STAR_' + subnum:
+            for experiment in sess.experiments(subject=subject):
+                if experiment[1] == cbs_id :
+                    _, response = yaxil._get(sess._auth, experiment.uri + '/files', yaxil.Format.JSON)
+                    file_list = [res for res in response['ResultSet']['Result'] if res['collection'] == 'behavioral_task_data']
+                    for fileinfo in file_list:
+                        fileinfo['uri'] = fileinfo.pop('URI')
+                        download_beh_file(sess, out_dir = source_dir + '/behavioral_files', **fileinfo)
 
 
 ## MAKING CUSTOM YAML FOR YAXIL 
