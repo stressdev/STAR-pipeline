@@ -14,6 +14,7 @@ module load Anaconda3/2019.10 python/3.7.7-fasrc01
 module load centos6/0.0.1-fasrc01  ncf/1.0.0-fasrc01 dcm2niix/2019_09_04-ncf freesurfer/6.0.0-ncf fsl/6.0.2-ncf
 
 CBS_ID=$1
+ID=`echo $CBS_ID | awk -F "_" '{print $3$4}'`
 SUBJECT=`echo $CBS_ID | awk -F "_" '{print "sub-"$3$4}'`
 STAR_DIR="/mnt/stressdevlab/STAR"
 STAR_SUB_DIR="${STAR_DIR}/${SUBJECT}"
@@ -53,6 +54,6 @@ done < ${STAR_SUB_DIR}/fmap_cmds.txt
     
 echo "Running scripts in OnsetScripts/"
 for pyfile in `ls OnsetScripts/*py`; do
-	echo "${pyfile} ${1};"	
-	python ${pyfile} ${1}; 
+	echo "${pyfile} ${ID};"	
+	python ${pyfile} ${ID}; 
 done

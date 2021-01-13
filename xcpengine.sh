@@ -12,6 +12,7 @@
 #SBATCH -e %x-%A-%a.err
 
 # ------------------------------------------
+set -aeuxo pipefail
 
 SDL_DIR="/net/holynfs01/srv/export/mclaughlin/share_root/stressdevlab"
 BIDS_DIR="/mnt/stressdevlab/STAR"
