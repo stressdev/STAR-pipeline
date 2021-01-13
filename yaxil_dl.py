@@ -160,7 +160,27 @@ fs_dir = '/mnt/stressdevlab/STAR/derivatives/fmriprep-20.1.1/freesurfer'
 morpho_dir = glob.glob('/ncf/nrg/pipelines/CBSCentral/Morphometrics3/STAR_Study/' + cbs_id + '/*/morphometrics')[0]
 cmds += [' '.join(['mkdir','-p',fs_dir + '/temp-' + bids_id])]
 cmds += [' '.join(['cp','-r',morpho_dir,fs_dir + '/temp-' + bids_id + '/'])]
-cmds += [' '.join(['mv',fs_dir + '/temp-' + bids_id + '/morphometrics', fs_dir + '/' + bids_id])]
+
+mv_cmd = """
+file1="{file1}"
+file2_chk="{file2_chk}"
+file2="{file2}"
+if [ ! -e ${{file1}} ]
+then
+    echo >&2 There is no file ${{file1}}
+else 
+    if [ ! -e ${{file2_chk}} ] && [ ! -L ${{file2_chk}} ]
+    then
+        mv ${{file1}} ${{file2}}
+    else 
+        echo >&2 There is already a file ${{file2}}.
+    fi
+fi
+""".format(file1=fs_dir + '/temp-' + bids_id + '/morphometrics', 
+           file2_chk=fs_dir + '/' + bids_id + '/morphometrics',
+           file2=fs_dir + '/' + bids_id) 
+
+cmds += [mv_cmd]
 cmds += [' '.join(['mri_convert',fs_dir + '/' + bids_id + '/mri/T1.mgz', source_dir + '/anat/' + bids_id + '_T1w.nii.gz'])]
 
 #WRITE COMMANDS OUT TO FILE
