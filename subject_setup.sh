@@ -1,6 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name=subsetup
-#SBATCH --output=%x_%j.out
+#SBATCH --output=sub_setup_logs/%x_%j.out
 #SBATCH --time=02-00:30:30
 #SBATCH -n 1
 #SBATCH --cpus-per-task=1
@@ -19,6 +18,14 @@ SUBJECT=`echo $CBS_ID | awk -F "_" '{print "sub-"$3$4}'`
 STAR_DIR="/mnt/stressdevlab/STAR"
 STAR_SUB_DIR="${STAR_DIR}/${SUBJECT}"
 SOURCE_SUB_DIR="${STAR_DIR}/sourcedata/${SUBJECT}"
+
+cat << EOF
+    /**********************/
+   /*                     /
+  /* ${CBS_ID}
+ /*---------------------/
+/**********************/
+EOF
 echo "Downloading and processing data for $SUBJECT"
 
 #Activate py37
