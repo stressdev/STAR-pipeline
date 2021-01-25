@@ -1,4 +1,14 @@
 #!/bin/bash
+#
+# Purpose: Create jobs that download subject data from CBS central and create onsets.
+# Usage: bash serial_subject_setup.sh <input file>
+# Input: <input file> is the name of a text file with 1 CBS id per line.
+# Details: It schedules jobs 20 mintues apart, because that's about how long it takes 
+#          to donwload one subject. This may not be strictly necessary, but I've found
+#          that other xnat databases may begin to reject requests if too many are made
+#          at once.
+
+
 set -axo pipefail
 set -eu
 
