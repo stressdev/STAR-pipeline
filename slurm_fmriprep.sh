@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH --job-name=fmriprep
-#SBATCH --output=slurm_%j.out
-#SBATCH --error=slurm_%j.err
+#SBATCH --output=fmriprep_logs/%x_%j.out
+#SBATCH --error=fmriprep_logs/%x_%j.err
 #SBATCH --time=02-00:30:30
 #SBATCH -n 1
 #SBATCH --cpus-per-task=8
